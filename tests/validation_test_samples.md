@@ -1,0 +1,106 @@
+{
+  "test_cases": [
+    // Single Choice - Valid
+    {
+      "content_type": "single_choice",
+      "config": {
+        "required": true,
+        "validation": {
+          "rules": [
+            {"type": "min_options", "value": 2},
+            {"type": "max_options", "value": 5}
+          ]
+        }
+      },
+      "content": {
+        "options": [
+          {"id": "opt1", "text": "Option 1"},
+          {"id": "opt2", "text": "Option 2"}
+        ]
+      },
+      "test_data": {"answer": "opt1"},
+      "should_validate": true
+    },
+    
+    // Single Choice - Invalid (answer not in options)
+    {
+      "content_type": "single_choice",
+      "config": {"required": true},
+      "content": {
+        "options": [
+          {"id": "opt1", "text": "Option 1"},
+          {"id": "opt2", "text": "Option 2"}
+        ]
+      },
+      "test_data": {"answer": "invalid_opt"},
+      "should_validate": false,
+      "expected_errors": ["Selected answer is not in options"]
+    },
+
+    // File Upload - Valid
+    {
+      "content_type": "file_upload",
+      "config": {
+        "required": true,
+        "validation": {
+          "rules": [
+            {"type": "file_type", "value": ["image/jpeg", "application/pdf"]},
+            {"type": "file_size", "value": 5242880},
+            {"type": "max_files", "value": 2}
+          ]
+        }
+      },
+      "content": {
+        "label": "Upload Documents"
+      },
+      "test_data": {
+        "files": [
+          {
+            "file_url": "https://example.com/file1.jpg",
+            "file_type": "image/jpeg",
+            "file_size": 2097152
+          }
+        ]
+      },
+      "should_validate": true
+    },
+
+    // File Upload - Invalid (wrong type and size)
+    {
+      "content_type": "file_upload",
+      "config": {
+        "required": true,
+        "validation": {
+          "rules": [
+            {"type": "file_type", "value": ["image/jpeg"]},
+            {"type": "file_size", "value": 1048576}
+          ]
+        }
+      },
+      "content": {},
+      "test_data": {
+        "files": [
+          {
+            "file_url": "https://example.com/file.png",
+            "file_type": "image/png",
+            "file_size": 2097152
+          }
+        ]
+      },
+      "should_validate": false,
+      "expected_errors": [
+        "file_type 'image/png' not allowed",
+        "file_size exceeds limit 1048576"
+      ]
+    },
+
+    // Display-only (header) - Should always validate
+    {
+      "content_type": "header",
+      "config": {"required": true},
+      "content": {"title": "Welcome"},
+      "test_data": {},
+      "should_validate": true
+    }
+  ]
+}
