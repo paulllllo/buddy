@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"target": "ES2019",
+		"module": "ESNext",
+		"jsx": "react-jsx",
+		"declaration": true,
+		"declarationDir": "dist",
+		"emitDeclarationOnly": false,
+		"outDir": "dist",
+		"moduleResolution": "Node",
+		"skipLibCheck": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/components/*": ["src/components/*"]
+		}
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx", "**/test.tsx"]
+}
